@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>from A to ;</title>
+  <title>Use scss mixins to handle special cases indicated by ancestor elements - from A to ;</title>
   <meta name="author" content="Mark Rushakoff">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mark-rushakoff.github.com/">
+  <link rel="canonical" href="http://mark-rushakoff.github.com/blog/2012/09/07/use-scss-mixins-to-handle-special-cases-indicated-by-ancestor-elements/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -62,15 +62,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/09/07/use-scss-mixins-to-handle-special-cases-indicated-by-ancestor-elements/">Use scss mixins to handle special cases indicated by ancestor elements</a></h1>
+      <h1 class="entry-title">Use scss mixins to handle special cases indicated by ancestor elements</h1>
     
     
       <p class="meta">
@@ -93,7 +90,7 @@
   </header>
 
 
-  <div class="entry-content"><p>I&#8217;ve been using <a href="http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#referencing_parent_selectors_">Sass&#8217;s parent selector (<code>&amp;</code>)</a> routinely for about a year now, mostly in situations where I&#8217;m adding extra qualifiers to the parent selector:</p>
+<div class="entry-content"><p>I&#8217;ve been using <a href="http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#referencing_parent_selectors_">Sass&#8217;s parent selector (<code>&amp;</code>)</a> routinely for about a year now, mostly in situations where I&#8217;m adding extra qualifiers to the parent selector:</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -253,18 +250,57 @@ But if you have a large number of rounded buttons in different colors, you might
 
 <p>Although this is a bit of a contrived example, I hope you can use this approach to help ease the pain of dealing with difficult cross-browser incompatibilities.</p>
 </div>
+
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Rushakoff</span></span>
+
+      
+
+
+
+
+
+
+
+
   
 
 
-    </article>
+<time datetime="2012-09-07T20:44:00-07:00" pubdate data-updated="true">Sep 7<span>th</span>, 2012</time>
+      
+
+<span class="categories">
   
-  <div class="pagination">
+    <a class='category' href='/blog/categories/sass/'>sass</a>, <a class='category' href='/blog/categories/scss-/'>scss,</a>
+  
+</span>
+
+
+    </p>
     
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mark-rushakoff.github.com/blog/2012/09/07/use-scss-mixins-to-handle-special-cases-indicated-by-ancestor-elements/" data-via="rushakoff" data-counturl="http://mark-rushakoff.github.com/blog/2012/09/07/use-scss-mixins-to-handle-special-cases-indicated-by-ancestor-elements/" >Tweet</a>
+  
+  
+  
 </div>
+
+    
+    <p class="meta">
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
@@ -281,7 +317,7 @@ But if you have a large number of rounded buttons in different colors, you might
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/mark-rushakoff">@mark-rushakoff</a> on GitHub
@@ -311,7 +347,7 @@ But if you have a large number of rounded buttons in different colors, you might
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -330,6 +366,7 @@ But if you have a large number of rounded buttons in different colors, you might
 
   
 </aside>
+
 
     </div>
   </div>
