@@ -4,7 +4,7 @@
   <title><![CDATA[from A to ;]]></title>
   <link href="http://mark-rushakoff.github.com/atom.xml" rel="self"/>
   <link href="http://mark-rushakoff.github.com/"/>
-  <updated>2012-09-07T22:16:17-07:00</updated>
+  <updated>2012-09-14T13:03:08-07:00</updated>
   <id>http://mark-rushakoff.github.com/</id>
   <author>
     <name><![CDATA[Mark Rushakoff]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Effective Pair Programming: Line numbers]]></title>
+    <link href="http://mark-rushakoff.github.com/blog/2012/09/14/effective-pair-programming-line-numbers/"/>
+    <updated>2012-09-14T12:48:00-07:00</updated>
+    <id>http://mark-rushakoff.github.com/blog/2012/09/14/effective-pair-programming-line-numbers</id>
+    <content type="html"><![CDATA[<p>This isn’t one of the obvious things to configure when you’re new to pair programming - but having line numbers turned on in your editor makes communicating go much more smoothly.</p>
+
+<p>As the driver in the pair, it’s significantly less effort for you to jump to a line number than it is for you to mentally parse code outside your immediate mental scope.
+And any respectable editor has keyboard shortcuts to jump to a specific line (<a href="http://vim.wikia.com/wiki/Go_to_line">in Vim</a>, I prefer to use <code>:42</code>).</p>
+
+<p>As the non-driver in the pair, if I notice a line with an extra double quote, for instance, it’s easier to me to say &#8220;there’s an extra quote on line 42&#8221; than it is for me to tell you &#8220;look at the second time you called the <code>helper</code> function inside the <code>render</code> call&#8221;.
+I don’t have to do any mental gymnastics to verbally describe the line in question, and neither do you to understand where I want you to look.</p>
+
+<p>Another great advantage of using line numbers is that there&#8217;s fewer reasons for people to point at (and inevitably smudge) your display.</p>
+
+<p>Be an effective pair. Use line numbers.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Use scss mixins to handle special cases indicated by ancestor elements]]></title>
