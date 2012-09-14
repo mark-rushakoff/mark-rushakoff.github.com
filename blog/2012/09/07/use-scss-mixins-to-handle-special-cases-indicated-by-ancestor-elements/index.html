@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Use scss mixins to handle special cases indicated by ancestor elements - from A to ;</title>
+  <meta name="author" content="Mark Rushakoff">
+
+  
+  <meta name="description" content="I&#8217;ve been using Sass&#8217;s parent selector (&amp;) routinely for about a year now, mostly in situations where I&#8217;m adding extra &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mark-rushakoff.github.com/blog/2012/09/07/use-scss-mixins-to-handle-special-cases-indicated-by-ancestor-elements/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="from A to ;" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">from A to ;</a></h1>
+  
+    <h2>programming from the home row</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:mark-rushakoff.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Use scss mixins to handle special cases indicated by ancestor elements</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-07T20:44:00-07:00" pubdate data-updated="true">Sep 7<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I&#8217;ve been using <a href="http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#referencing_parent_selectors_">Sass&#8217;s parent selector (<code>&amp;</code>)</a> routinely for about a year now, mostly in situations where I&#8217;m adding extra qualifiers to the parent selector:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nt">a</span> <span class="err">{</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nb">red</span><span class="err">;</span>
+</span><span class='line'>  <span class="k">&amp;</span><span class="nc">.disabled</span> <span class="err">{</span>
+</span><span class='line'>    <span class="na">color</span><span class="o">:</span> <span class="n">lightgray</span><span class="err">;</span>
+</span><span class='line'>  <span class="err">}</span>
+</span><span class='line'>  <span class="k">&amp;</span><span class="nd">:hover</span> <span class="err">{</span>
+</span><span class='line'>    <span class="na">text-decoration</span><span class="o">:</span> <span class="no">underline</span><span class="err">;</span>
+</span><span class='line'>  <span class="err">}</span>
+</span><span class='line'><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It wasn&#8217;t until very recently that I learned the <code>&amp;</code> operator wasn&#8217;t a special &#8220;append the following qualifier to the parent selector&#8221; but rather just &#8220;the full parent selector.&#8221;
+This means you can &#8220;break out of nesting&#8221; like so:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nt">p</span><span class="o">,</span> <span class="nt">em</span><span class="o">,</span> <span class="nt">strong</span> <span class="err">{</span>
+</span><span class='line'>  <span class="na">font-size</span><span class="o">:</span> <span class="mi">12</span><span class="kt">px</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nb">black</span><span class="err">;</span>
+</span><span class='line'>  <span class="nc">.disabled</span> <span class="k">&amp;</span> <span class="err">{</span>
+</span><span class='line'>    <span class="na">color</span><span class="o">:</span> <span class="nb">gray</span><span class="err">;</span>
+</span><span class='line'>    <span class="na">font-style</span><span class="o">:</span> <span class="no">italic</span><span class="err">;</span>
+</span><span class='line'>  <span class="err">}</span>
+</span><span class='line'><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>which is the same as writing:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nt">p</span><span class="o">,</span> <span class="nt">em</span><span class="o">,</span> <span class="nt">strong</span> <span class="err">{</span>
+</span><span class='line'>  <span class="na">font-size</span><span class="o">:</span> <span class="mi">12</span><span class="kt">px</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nb">black</span><span class="err">;</span>
+</span><span class='line'><span class="err">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.disabled</span> <span class="err">{</span>
+</span><span class='line'>  <span class="nt">p</span><span class="o">,</span> <span class="nt">em</span><span class="o">,</span> <span class="nt">strong</span> <span class="err">{</span>
+</span><span class='line'>    <span class="na">color</span><span class="o">:</span> <span class="nb">gray</span><span class="err">;</span>
+</span><span class='line'>    <span class="na">font-style</span><span class="o">:</span> <span class="no">italic</span><span class="err">;</span>
+</span><span class='line'>  <span class="err">}</span>
+</span><span class='line'><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Under most circumstances, I wouldn&#8217;t recommend putting a selector before the <code>&amp;</code> in Sass; but sometimes desperate measures are necessary.
+Maybe you are supporting multiple browsers and one of them can&#8217;t handle a particular feature.
+You might start with CSS like:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.my-button</span> <span class="err">{</span>
+</span><span class='line'>  <span class="na">border-radius</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">30</span><span class="kt">px</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">px</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">blue</span><span class="err">;</span>
+</span><span class='line'><span class="err">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">body</span><span class="nc">.border-radius-unsupported</span> <span class="nc">.my-button</span> <span class="err">{</span>
+</span><span class='line'>  <span class="na">background-image</span><span class="o">:</span> <span class="sx">url(&#39;img/rounded-blue-button.png&#39;)</span><span class="err">;</span>
+</span><span class='line'><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You could rewrite this as</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.my-button</span> <span class="err">{</span>
+</span><span class='line'>  <span class="na">border-radius</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">30</span><span class="kt">px</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">px</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">blue</span><span class="err">;</span>
+</span><span class='line'>  <span class="nt">body</span><span class="nc">.border-radius-unsupported</span> <span class="k">&amp;</span> <span class="err">{</span>
+</span><span class='line'>    <span class="na">background-image</span><span class="o">:</span> <span class="sx">url(&#39;img/rounded-blue-button.png&#39;)</span><span class="err">;</span>
+</span><span class='line'>  <span class="err">}</span>
+</span><span class='line'><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&#8217;s ugly, but at least it leaves your .scss file a little less cluttered.
+But if you have a large number of rounded buttons in different colors, you might want to write a mixin to handle this (and you might want to reconsider your design!):</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="k">@mixin</span><span class="nf"> no-border-radius</span> <span class="err">{</span>
+</span><span class='line'>  <span class="nt">body</span><span class="nc">.border-radius-unsupported</span> <span class="k">&amp;</span> <span class="err">{</span>
+</span><span class='line'>    <span class="k">@content</span><span class="o">;</span>
+</span><span class='line'>  <span class="err">}</span>
+</span><span class='line'><span class="err">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.my-button</span> <span class="err">{</span>
+</span><span class='line'>  <span class="na">border-radius</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">30</span><span class="kt">px</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">px</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">blue</span><span class="err">;</span>
+</span><span class='line'>  <span class="k">@include</span><span class="nd"> no-border-radius</span> <span class="err">{</span>
+</span><span class='line'>    <span class="na">background-image</span><span class="o">:</span> <span class="sx">url(&#39;img/rounded-blue-button.png&#39;)</span><span class="err">;</span>
+</span><span class='line'>  <span class="err">}</span>
+</span><span class='line'><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Although this is a bit of a contrived example, I hope you can use this approach to help ease the pain of dealing with difficult cross-browser incompatibilities.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Rushakoff</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-07T20:44:00-07:00" pubdate data-updated="true">Sep 7<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/sass/'>sass</a>, <a class='category' href='/blog/categories/scss-/'>scss,</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mark-rushakoff.github.com/blog/2012/09/07/use-scss-mixins-to-handle-special-cases-indicated-by-ancestor-elements/" data-via="rushakoff" data-counturl="http://mark-rushakoff.github.com/blog/2012/09/07/use-scss-mixins-to-handle-special-cases-indicated-by-ancestor-elements/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/09/07/use-scss-mixins-to-handle-special-cases-indicated-by-ancestor-elements/">Use scss mixins to handle special cases indicated by ancestor elements</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/mark-rushakoff">@mark-rushakoff</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mark-rushakoff',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("rushakoff", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/rushakoff" class="twitter-follow-button" data-show-count="false">Follow @rushakoff</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Mark Rushakoff -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
