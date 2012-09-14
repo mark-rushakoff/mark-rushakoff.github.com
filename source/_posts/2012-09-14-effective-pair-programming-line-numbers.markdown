@@ -3,6 +3,8 @@ layout: post
 title: "Effective Pair Programming: Line numbers"
 date: 2012-09-14 12:48
 comments: true
+description: "Use line numbers while pair programming to be more effective"
+keywords: "pair programming, line numbers"
 categories:
   - pair programming
 ---
